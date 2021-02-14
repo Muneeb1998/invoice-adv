@@ -1,0 +1,157 @@
+CREATE SCHEMA IF NOT EXISTS `ml_dental` DEFAULT CHARACTER SET utf8
+CREATE TABLE IF NOT EXISTS `ml_dental`.`staff` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `branch_id` INT NOT NULL,
+  `role_id` INT NOT NULL,
+  `join_date` DATE NULL,
+  `designation_id` INT NOT NULL,
+  `destination_id` INT NOT NULL,
+  `media_id` INT NOT NULL,
+  `qualification` VARCHAR(45) NULL,
+  `Name` VARCHAR(45) NULL,
+  `Gender` ENUM('f', 'm') NULL,
+  `religion` VARCHAR(45) NULL,
+  `blood` TINYINT(3) NULL,
+  `mobile_no` INT NULL,
+  `present_address` VARCHAR(200) NULL,
+  `permanent_address` VARCHAR(200) NULL,
+  `email_address` VARCHAR(50) NULL,
+  `user_facebook` VARCHAR(50) NULL,
+  `bank_name` VARCHAR(45) NULL,
+  `account_holder` VARCHAR(45) NULL,
+  `bank_branch` VARCHAR(45) NULL,
+  `bank_address` VARCHAR(45) NULL,
+  `account_no` VARCHAR(45) NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`designation` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `designation` VARCHAR(45) NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`destination` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `destination` VARCHAR(45) NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `role` VARCHAR(45) NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`branch` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `branch` VARCHAR(45) NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`media` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NULL,
+  `media_path` VARCHAR(100) NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`holiday` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `staff_id` INT NULL,
+  `holiday_reason` VARCHAR(100) NULL,
+  `created_by` VARCHAR(50) NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`patient` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  `mobile_no` INT NULL,
+  `present_address` VARCHAR(200) NULL,
+  `permanent_address` VARCHAR(200) NULL,
+  `email_address` VARCHAR(50) NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`appointment_charges` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `staff_id` INT NOT NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`appointment` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `staff_id` INT NULL,
+  `patient_id` INT NULL,
+  `appointment_charges` INT NULL,
+  `appointment_date` DATE NULL,
+  `appointment_time` TIME NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`complaints` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `complainer_id` INT NULL,
+  `complain` VARCHAR(200) NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`clinic_notes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `notes` VARCHAR(2000) NULL,
+  `patient_id` INT NULL,
+  `created_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `ml_dental`.`tpa_details` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `patient_id` INT NULL,
+  `code` INT NULL,
+  `contact_person_name` VARCHAR(45) NULL,
+  `contact_person_number` INT NULL,
+  `create_by` INT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+ALTER TABLE `ml_dental`.`branch` 
+ADD COLUMN `email` VARCHAR(45) NULL AFTER `branch`,
+ADD COLUMN `mobile_no` INT NULL AFTER `email`,
+ADD COLUMN `city` VARCHAR(45) NULL AFTER `mobile_no`,
+ADD COLUMN `state` VARCHAR(45) NULL AFTER `city`,
+ADD COLUMN `address` VARCHAR(150) NULL AFTER `state`;
+<<<<<<< HEAD
+ALTER TABLE `ml_dental`.`department` 
+ADD COLUMN `branch_id` INT NULL AFTER `id`;
+
+ALTER TABLE `ml_dental`.`designation` ADD COLUMN `branch_id` INT NULL AFTER `id`;
+=======
+
+
+ALTER TABLE `ml_dental`.`appointment` ADD COLUMN `gender` ENUM('male','female','other') NULL AFTER `updated_at`; 
+ALTER TABLE `ml_dental`.`appointment` DROP COLUMN `appointment_time`, CHANGE `appointment_date` `appointment_date` DATETIME NULL;
+ALTER TABLE `ml_dental`.`appointment` ADD COLUMN `patient_email` VARCHAR(255) NULL AFTER `appointment_date`; 
+
+
+
+ALTER TABLE `ml_dental`.`appointment` CHANGE `patient_email` `patient_email` VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci NULL AFTER `patient_id`, ADD COLUMN `patient_phone` VARCHAR(255) NULL AFTER `patient_email`, CHANGE `gender` `gender` ENUM('male','female','other') CHARSET utf8 COLLATE utf8_general_ci NULL AFTER `patient_phone`, ADD COLUMN `appointment_status` ENUM('pending','approved','cancel') NULL AFTER `appointment_date`, CHANGE `created_by` `created_by` INT(11) NULL AFTER `appointment_status`, CHANGE `created_at` `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NULL AFTER `created_by`, CHANGE `updated_at` `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP NULL AFTER `created_at`; 
+ALTER TABLE `ml_dental`.`appointment` ADD COLUMN `message` TEXT NULL AFTER `appointment_status`; 
+
+ALTER TABLE `ml_dental`.`patient` ADD COLUMN `gender` ENUM('male','female','other') NULL AFTER `name`; 
+>>>>>>> b3b60c1d27f66d3e4f6d96974f1cba84bf672aeb
